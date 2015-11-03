@@ -152,6 +152,8 @@ popen(const char *command, const char *type)
 		}
 
 		execl(_PATH_BSHELL, "sh", "-c", command, NULL);
+		if (__builtin_expect(!!(errno == ENOENT), 0))
+			execl(_PATH_BSHELL2, "sh", "-c", command, NULL);
 		_exit(127);
 		/* NOTREACHED */
 	}
